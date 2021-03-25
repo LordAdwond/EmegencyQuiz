@@ -1,8 +1,3 @@
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtWidgets import QVBoxLayout
-from PyQt5.QtWidgets import QPushButton
-from PyQt5.QtWidgets import QLabel
-from PyQt5.QtWidgets import  QRadioButton
 from PyQt5.QtWidgets import QApplication
 import sys, os
 from random import sample
@@ -15,6 +10,7 @@ def generateForm():
     testsData = os.listdir(testDir)
     tests = sample(testsData, min(len(testsData), 5))
     testForms = []
+
     for test in tests:
         testFile = open(testDir + test, "r", encoding='utf-8')
         lines = testFile.readlines()
