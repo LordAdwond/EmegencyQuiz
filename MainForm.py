@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QApplication
 import sys, os
 from random import sample
 from TestForm import *
+from EndForm import *
 
 def generateForm():
     app = QApplication(sys.argv)
@@ -16,6 +17,7 @@ def generateForm():
         lines = testFile.readlines()
         testForms.append(formTest(lines[0], lines[1:4], lines[4]))
 
+    testForms.append(generateEndForm(testForms))
     for test in testForms:
         test.show()
 

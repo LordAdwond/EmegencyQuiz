@@ -2,11 +2,9 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QLabel
-from PyQt5.QtWidgets import  QRadioButton
+from PyQt5.QtWidgets import QRadioButton
 
 def formTest(question="", options=["", "", ""], right=""):
-    global correctAnswer
-
     question = QLabel(question)
     answerCorrection = QLabel("")
     v1 = QRadioButton(text=options[0])
@@ -22,14 +20,11 @@ def formTest(question="", options=["", "", ""], right=""):
     mainLayout.addWidget(answer)
     mainLayout.addWidget(answerCorrection)
 
-    isCorrect = False
-
     form = QWidget()
     form.setLayout(mainLayout)
 
     def selectCorrectAnswer():
-        rightStyleSheet = "QRadioButton{ background-color: lightgreen; }"
-        wrongStyleSheet = "QRadioButton{ background-color: red; }"
+        rightStyleSheet = "QRadioButton{ background-color: lightgreen; font-weight: bold; color: blue; }"
 
         answer.setEnabled(False)
         v1.setEnabled(False)
@@ -50,4 +45,5 @@ def formTest(question="", options=["", "", ""], right=""):
 
 
     answer.clicked.connect(selectCorrectAnswer)
+    form.setWindowTitle("Питання")
     return form
