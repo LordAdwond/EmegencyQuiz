@@ -12,17 +12,20 @@ def generateBeginForm():
     congratulation = QLabel("Вітаю у вікторині про пожежну безпеку!")
     beginQuizButton = QPushButton("Почати вікторину")
     mainLayout = QVBoxLayout()
-    congratulationStyleSheet = "QLabel{font-size: 250%; font-weight: bold; color: purple;}"
 
     def startQuiz():
         beginForm.close()
 
+    beginForm.setStyleSheet("QWidget{background-color: aqua; font-weight: bold;}")
+    congratulation.setStyleSheet("QPushButton{background-color lightred;}")
+
     mainLayout.addWidget(congratulation)
     mainLayout.addWidget(beginQuizButton)
     beginQuizButton.clicked.connect(startQuiz)
-    congratulation.setStyleSheet(congratulationStyleSheet)
     beginForm.setWindowTitle("Вікторина")
     beginForm.setLayout(mainLayout)
+
+
     beginForm.show()
 
     app.exec_()

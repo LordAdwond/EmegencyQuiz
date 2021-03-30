@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QRadioButton
+from PyQt5.QtCore import QFile
 
 def formTest(question="", options=["", "", ""], right=""):
     question = QLabel(question)
@@ -21,6 +22,7 @@ def formTest(question="", options=["", "", ""], right=""):
     mainLayout.addWidget(answerCorrection)
 
     form = QWidget()
+    form.trueAnswer = 0
     form.setLayout(mainLayout)
 
     def selectCorrectAnswer():
@@ -35,15 +37,21 @@ def formTest(question="", options=["", "", ""], right=""):
             v1.setStyleSheet(rightStyleSheet)
         elif( right=="2" ):
             v2.setStyleSheet(rightStyleSheet)
-        elif ( right == "3" ):
+        elif( right == "3" ):
             v3.setStyleSheet(rightStyleSheet)
 
         if( (right=="1" and v1.isChecked()) or (right=="2" and v2.isChecked()) or (right=="3" and v3.isChecked()) ):
             answerCorrection.setText("Правильно")
+            #file = QFile("result.dat")
+            #file.open(QFile.WriteOnly)
+            #file.write("1")
+            #file.close()
+            form.trueAnswer = 1
         else:
             answerCorrection.setText("Неправильно")
 
-
     answer.clicked.connect(selectCorrectAnswer)
     form.setWindowTitle("Питання")
+    form.setStyleSheet("QWidget{font-weight: bold; background-color: yellow; color: purple;}")
+    question.setStyleSheet("QLabel{color: blue; background-color: lightgreen;}")
     return form

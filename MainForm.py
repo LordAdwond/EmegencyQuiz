@@ -3,6 +3,8 @@ import sys, os
 from random import sample
 from TestForm import *
 from EndForm import *
+from resultForm import *
+from PyQt5.QtCore import QFile
 
 def generateForm():
     app = QApplication(sys.argv)
@@ -22,3 +24,11 @@ def generateForm():
         test.show()
 
     app.exec_()
+
+    app1 = QApplication(sys.argv)
+
+    mark = sum([testForms[0].trueAnswer, testForms[1].trueAnswer, testForms[2].trueAnswer, testForms[3].trueAnswer,
+                testForms[4].trueAnswer])
+    generateResultForm(mark)
+
+    app1.exec_()
