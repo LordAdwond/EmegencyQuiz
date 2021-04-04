@@ -1,5 +1,5 @@
 from MainForm import *
 from BeginForm import *
 
-generateBeginForm()
-generateForm()
+generateBeginForm() # generating begin form
+generateForm() # generating test

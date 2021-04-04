@@ -25,7 +25,6 @@ def generateBeginForm():
     beginForm.setWindowTitle("Вікторина")
     beginForm.setLayout(mainLayout)
 
-
     beginForm.show()
 
     app.exec_()
