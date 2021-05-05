@@ -3,8 +3,11 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QLabel
+from PyQt5.QtGui import QIcon
 import sys, os
 from random import sample
+from time import sleep
+
 from TestForm import *
 from resultForm import *
 
@@ -20,6 +23,7 @@ def generateForm():
     mainLayout = QVBoxLayout()
     mainLabel = QLabel("Виберіть питання")
     buttons = [ QPushButton("Питання "+str(i)) for i in range(1, len(tests)+1) ]
+
     # making of test forms
     for test in tests:
         testFile = open(testDir + test, "r", encoding='utf-8')
@@ -53,6 +57,11 @@ def generateForm():
 
     mainForm.setLayout(mainLayout)
     mainForm.setStyleSheet("QWidget{font-weight: bold;}")
+    try:
+        mainForm.setWindowIcon( QIcon(os.getcwd()+"/pictures/logo.png") )
+    except:
+        pass
+    mainForm.setWindowTitle("Питання")
     mainForm.show()
 
     app.exec_()

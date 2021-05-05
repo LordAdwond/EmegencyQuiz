@@ -3,7 +3,8 @@ from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QApplication
-
+from PyQt5.QtGui import QIcon
+import os
 import sys
 
 def generateResultForm(mark=0):
@@ -24,6 +25,11 @@ def generateResultForm(mark=0):
     exitButton.clicked.connect(endProgram)
     resultForm.setStyleSheet("QWidget{font-weight: bold;}")
     resultForm.setWindowTitle("Результати вікторини")
+    try:
+        resultForm.setWindowIcon( QIcon(os.getcwd()+"/pictures/logo.png") )
+    except:
+        pass
+
     resultForm.show()
 
     app.exec_()

@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QRadioButton
+from PyQt5.QtGui import QIcon
+import os
 
 def formTest(question="", options=["", "", ""], right=""):
     question = QLabel(question)
@@ -50,4 +52,9 @@ def formTest(question="", options=["", "", ""], right=""):
     form.setWindowTitle("Питання")
     form.setStyleSheet("QWidget{font-weight: bold; background-color: yellow; color: purple;}")
     question.setStyleSheet("QLabel{color: blue; background-color: lightgreen;}")
+    try:
+        form.setWindowIcon( QIcon(os.getcwd()+"/pictures/logo.png") )
+    except:
+        pass
+
     return form
