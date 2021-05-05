@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import QLabel
 from PyQt5.QtGui import QIcon
 import sys, os
 from random import sample
-from time import sleep
 
 from TestForm import *
 from resultForm import *

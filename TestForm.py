@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QRadioButton
 from PyQt5.QtGui import QIcon
 import os
+from time import  sleep
 
 def formTest(question="", options=["", "", ""], right=""):
     question = QLabel(question)
@@ -47,6 +48,9 @@ def formTest(question="", options=["", "", ""], right=""):
             form.trueAnswer = 1
         else:
             answerCorrection.setText("Неправильно")
+
+        sleep(1)
+        form.close()
 
     form.answer.clicked.connect(selectCorrectAnswer)
     form.setWindowTitle("Питання")
