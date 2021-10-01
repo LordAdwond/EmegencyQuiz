@@ -27,6 +27,7 @@ def formTest(question="", options=["", "", ""], right=""):
 
     form.trueAnswer = 0
     form.setLayout(mainLayout)
+    form.setGeometry(350, 200, 1150, 225)
 
     def selectCorrectAnswer():
         rightStyleSheet = "QRadioButton{ background-color: lightgreen; font-weight: bold; color: blue; }"
@@ -48,9 +49,6 @@ def formTest(question="", options=["", "", ""], right=""):
             form.trueAnswer = 1
         else:
             answerCorrection.setText("Неправильно")
-
-        sleep(1)
-        form.close()
 
     form.answer.clicked.connect(selectCorrectAnswer)
     form.setWindowTitle("Питання")

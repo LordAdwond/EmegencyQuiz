@@ -3,20 +3,32 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QLabel
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QIcon
 import sys, os
 from random import sample
+from random import randint
 
 from TestForm import *
-from resultForm import *
 
 def generateForm():
+    mark = 0
+
     app = QApplication(sys.argv)
 
+    # tests data
     testDir = os.getcwd() + "/tests/" # directory with tests
     testsData = os.listdir(testDir) # list of tests
-    tests = sample(testsData, min(len(testsData), 5)) # test selection
+
+    testsNumbers = []
+    while(len(testsNumbers)<min(len(testsData), 5)):
+        num = randint(0, len(testsData)-1)
+        if(num not in testsNumbers):
+            testsNumbers.append(num)
+
+    tests = [ testsData[num] for num in testsNumbers ] # test selection
     testForms = [] # list for test forms
+
     # variables for form
     mainForm = QWidget()
     mainLayout = QVBoxLayout()
@@ -28,6 +40,7 @@ def generateForm():
         testFile = open(testDir + test, "r", encoding='utf-8')
         lines = testFile.readlines()
         testForms.append(formTest(lines[0], lines[1:4], lines[4]))
+
     # forming of main form and connecting of components
     mainLayout.addWidget(mainLabel)
     for button in buttons:
@@ -61,14 +74,32 @@ def generateForm():
     except:
         pass
     mainForm.setWindowTitle("Питання")
+    mainForm.setGeometry(300, 300, 350, 100)
     mainForm.show()
 
-    app.exec_()
+    if(mainForm.isVisible()):
+        app.exec_()
+    else:
+        app.exit(0)
 
-    app1 = QApplication(sys.argv)
-    # open the window with results
+
+    exit_app = QApplication(sys.argv)
     mark = sum([testForms[0].trueAnswer, testForms[1].trueAnswer, testForms[2].trueAnswer, testForms[3].trueAnswer,
                 testForms[4].trueAnswer])
-    generateResultForm(mark)
 
-    app1.exec_()
+    messBoxIcon = QIcon(os.getcwd() + "/pictures/logo.png")
+    resultWidget = QWidget()
+    mainLayout = QVBoxLayout()
+    markLabel = QLabel("Твоя оцінка: {}".format(mark))
+    exitButton = QPushButton("Вийти")
+
+    exitButton.clicked.connect(lambda: exit(0))
+    mainLayout.addWidget(markLabel)
+    mainLayout.addWidget(exitButton)
+    resultWidget.setLayout(mainLayout)
+
+    resultWidget.setWindowTitle("Результат")
+    resultWidget.setWindowIcon(messBoxIcon)
+
+    resultWidget.show()
+    exit_app.exec_()
