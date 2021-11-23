@@ -3,60 +3,79 @@ from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QRadioButton
+from PyQt5.QtWidgets import QGroupBox
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtGui import QIcon
 import os
-from time import  sleep
 
-def formTest(question="", options=["", "", ""], right=""):
-    question = QLabel(question)
-    answerCorrection = QLabel("")
-    v1 = QRadioButton(text=options[0])
-    v2 = QRadioButton(text=options[1])
-    v3 = QRadioButton(text=options[2])
-    form = QWidget()
-    form.answer = QPushButton("Відповісти")
+class TestForm(QWidget):
+    """Class for test window"""
+    def __init__(self, question="", options=["", "", ""], right=""):
+        """Initialize a quiz question window"""
+        super().__init__(None)
 
-    mainLayout = QVBoxLayout()
-    mainLayout.addWidget(question)
-    mainLayout.addWidget(v1)
-    mainLayout.addWidget(v2)
-    mainLayout.addWidget(v3)
-    mainLayout.addWidget(form.answer)
-    mainLayout.addWidget(answerCorrection)
+        # main variables
+        self.question_label = QLabel(question)
+        self.variants_group = QGroupBox("Варіанти")
+        self.v1 = QRadioButton(text=f"а) {options[0]}")
+        self.v2 = QRadioButton(text=f"б) {options[1]}")
+        self.v3 = QRadioButton(text=f"в) {options[2]}")
+        self.send_answer_button = QPushButton("Відповісти")
+        self.is_answer_correct_label = QLabel("")
+        self.answer_variants_layout = QVBoxLayout()
+        self.main_layout = QVBoxLayout()
+        self.right_answer = right
+        self.mark = 0
 
+        # set window organization
+        self.answer_variants_layout.addWidget(self.v1)
+        self.answer_variants_layout.addWidget(self.v2)
+        self.answer_variants_layout.addWidget(self.v3)
+        self.variants_group.setLayout(self.answer_variants_layout)
+        self.main_layout.addWidget(self.question_label)
+        self.main_layout.addWidget(self.variants_group)
+        self.main_layout.addWidget(self.is_answer_correct_label)
+        self.main_layout.addWidget(self.send_answer_button)
+        self.setLayout(self.main_layout)
 
-    form.trueAnswer = 0
-    form.setLayout(mainLayout)
-    form.setGeometry(350, 200, 1150, 225)
+        # set a basis style
+        self.setStyleSheet("QWidget{background-color: aqua; font-weight: bold;}")
+        self.setWindowTitle("Питання")
+        try:
+            self.setWindowIcon(QIcon(os.getcwd() + "/pictures/logo.png"))
+        except:
+            pass
 
-    def selectCorrectAnswer():
-        rightStyleSheet = "QRadioButton{ background-color: lightgreen; font-weight: bold; color: blue; }"
+        # set connections
+        self.send_answer_button.clicked.connect(lambda : self.check_answer())
 
-        form.answer.setEnabled(False)
-        v1.setEnabled(False)
-        v2.setEnabled(False)
-        v3.setEnabled(False)
+    def check_answer(self):
+        """To check is answer correct"""
 
-        if( right=="1" ):
-            v1.setStyleSheet(rightStyleSheet)
-        elif( right=="2" ):
-            v2.setStyleSheet(rightStyleSheet)
-        elif( right == "3" ):
-            v3.setStyleSheet(rightStyleSheet)
+        # make a message
+        is_correct_message = QMessageBox()
+        message = ""
 
-        if( (right=="1" and v1.isChecked()) or (right=="2" and v2.isChecked()) or (right=="3" and v3.isChecked()) ):
-            answerCorrection.setText("Правильно")
-            form.trueAnswer = 1
+        # unlock all buttons
+        self.v1.setDisabled(True)
+        self.v2.setDisabled(True)
+        self.v3.setDisabled(True)
+        self.send_answer_button.setDisabled(True)
+
+        # answer check
+        if((self.right_answer=="1" and self.v1.isChecked()) or (self.right_answer=="2" and self.v2.isChecked()) or (self.right_answer=="3" and self.v3.isChecked())):
+            message = "Правильно"
+            self.mark = 1
         else:
-            answerCorrection.setText("Неправильно")
+            message = "Неправильно\nПравильна відповідь: "
+            if self.right_answer == "1":
+                message += "а)"
+            elif self.right_answer == "2":
+                message += "б)"
+            elif self.right_answer == "3":
+                message += "в)"
 
-    form.answer.clicked.connect(selectCorrectAnswer)
-    form.setWindowTitle("Питання")
-    form.setStyleSheet("QWidget{font-weight: bold; background-color: yellow; color: purple;}")
-    question.setStyleSheet("QLabel{color: blue; background-color: lightgreen;}")
-    try:
-        form.setWindowIcon( QIcon(os.getcwd()+"/pictures/logo.png") )
-    except:
-        pass
-
-    return form
+        # show a result of answer
+        self.is_answer_correct_label.setText(message)
+        is_correct_message.setText(message)
+        is_correct_message.exec_()

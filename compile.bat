@@ -1,1 +1,1 @@
-pyinstaller main.py --onefile
+pyinstaller EmegencyQuiz.py --onefile
